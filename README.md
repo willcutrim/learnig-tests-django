@@ -1,1 +1,1 @@
-#Projeto criado com intuido de aprender testes em django
+# Projeto criado com intuido de aprender testes em django
