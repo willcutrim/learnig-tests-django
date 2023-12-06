@@ -4,6 +4,12 @@ from aluraflix.models import Programa
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.authentication import BasicAuthentication
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+
+
+
 
 class ProgramaViewSet(viewsets.ModelViewSet):
     queryset = Programa.objects.all()
@@ -15,3 +21,11 @@ class ProgramaViewSet(viewsets.ModelViewSet):
     authentication_classes = [BasicAuthentication]
     permission_classes = [IsAuthenticated]
 
+
+
+class GetAllProgramas(APIView):
+
+    def get(self, request, *args, **kwargs):
+        programas = Programa.objects.all()
+        serializer = ProgramaSerializer(programas, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)

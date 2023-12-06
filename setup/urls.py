@@ -9,4 +9,5 @@ router.register('programas', ProgramaViewSet, basename='programas')
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include(router.urls)),
+    path('', include('aluraflix.urls')),
 ]

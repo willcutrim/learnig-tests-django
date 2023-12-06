@@ -29,3 +29,6 @@ class ProgramaSerializerTestCase(TestCase):
         self.assertEqual(data['data_lancamento'], self.programa.data_lancamento)
         self.assertEqual(data['likes'], self.programa.likes)
 
+
+
+
