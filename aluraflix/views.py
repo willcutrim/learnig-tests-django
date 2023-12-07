@@ -25,6 +25,7 @@ class ProgramaViewSet(viewsets.ModelViewSet):
 
 class GetAllProgramas(APIView):
 
+    permission_classes = [IsAuthenticated]
     def get(self, request, *args, **kwargs):
         programas = Programa.objects.all()
         serializer = ProgramaSerializer(programas, many=True)
@@ -32,6 +33,7 @@ class GetAllProgramas(APIView):
     
     
 class PostProgramasApi(APIView):
+
 
     def post(self, request, *args, **kwargs):
         serializer = ProgramaSerializer(data=request.data)

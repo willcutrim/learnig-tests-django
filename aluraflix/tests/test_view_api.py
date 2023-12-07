@@ -1,11 +1,14 @@
-from typing import Any
 from django.test import TestCase
-from aluraflix.views import GetAllProgramas
 from aluraflix.models import Programa
 from aluraflix.serializers import ProgramaSerializer
 from django.urls import reverse
 from rest_framework.test import APIClient
 from rest_framework import status
+from django.contrib.auth.models import User
+from django.contrib.auth import authenticate
+
+
+
 
 
 class ProgramaViewTestCase(TestCase):
@@ -13,6 +16,7 @@ class ProgramaViewTestCase(TestCase):
     def setUp(self):
         self.programas = Programa.objects.all()
         self.serializer = ProgramaSerializer(instance=self.programas)
+        self.user = User.objects.create_user('will', password='123456')
 
         self.data = {
             "titulo": "olá",
@@ -27,6 +31,7 @@ class ProgramaViewTestCase(TestCase):
 
     def test_requisicao_get_status_ok(self):
         """Testando se a requisição tem status 200 || OK"""
+        self.client.force_authenticate(self.user)
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
