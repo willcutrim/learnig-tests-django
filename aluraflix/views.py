@@ -29,3 +29,13 @@ class GetAllProgramas(APIView):
         programas = Programa.objects.all()
         serializer = ProgramaSerializer(programas, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
+    
+    
+class PostProgramasApi(APIView):
+
+    def post(self, request, *args, **kwargs):
+        serializer = ProgramaSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_404_NOT_FOUND)

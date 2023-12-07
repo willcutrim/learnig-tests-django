@@ -14,8 +14,16 @@ class ProgramaViewTestCase(TestCase):
         self.programas = Programa.objects.all()
         self.serializer = ProgramaSerializer(instance=self.programas)
 
+        self.data = {
+            "titulo": "olá",
+            "tipo": "F",
+            "data_lancamento": "2018-04-19"
+        }
+        self.client = APIClient()
+
         self.client = APIClient()
         self.url = reverse('all-programs')
+        self.url_post = reverse('post-programs')
 
     def test_requisicao_get_status_ok(self):
         """Testando se a requisição tem status 200 || OK"""
@@ -28,4 +36,20 @@ class ProgramaViewTestCase(TestCase):
         self.assertFalse('results' in response.data)
 
         
-        
+    def test_veriricar_post_status_201(self):
+        """Teste para verificar se status do método post é 201"""
+        response = self.client.post(self.url_post, self.data)
+
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
+
+    def test_verificar_se_post_esta_salvando_corretamente(self):
+        """Teste para veriricar se o método post está salvando corretamente"""
+        response = self.client.post(self.url_post, self.data)
+
+        self.assertEqual(self.programas.count(), 1)
+
+
+        programa = Programa.objects.get()
+        serializer = ProgramaSerializer(programa)
+        self.assertEqual(response.data, serializer.data)
